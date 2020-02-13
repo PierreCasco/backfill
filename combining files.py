@@ -11,7 +11,10 @@ import os
 import datetime
 
 
-knack_extract = pd.read_csv(r'/Users/pierre.casco/backfill/Files/KnackExtract2018.csv', usecols = ['Address','Compass listing ID','Listing Type','Close date','Entity name','Represented?'])
+knack_extract = pd.read_csv(r'/Users/pierre.casco/backfill/Files/KnackExtract2018.csv', 
+                            usecols = ['Address','Compass listing ID',
+                                       'Listing Type','Close date',
+                                       'Entity name','Represented?'])
 
 
 # Import file
@@ -30,7 +33,9 @@ li = []
 i = 1
 
 for f in a_f:
-    df = pd.read_csv(f, usecols = ['External ID','Compass Listing ID','Close Date','Side Represented (Source)','Listing Type (Source)','Compass Team ID'])
+    df = pd.read_csv(f, usecols = ['External ID','Compass Listing ID',
+                                   'Close Date','Side Represented (Source)',
+                                   'Listing Type (Source)','Compass Team ID'])
     li.append(df)
     print(i,'-', f)
     i+=1
@@ -104,9 +109,11 @@ knack_matches['dummy_id'] = ''
 
 for i in range(0,(len(knack_matches)-1)):
     if len(knack_matches['Compass listing ID'][i]) >= 1:
-        knack_matches['dummy_id'][i] = knack_matches['Compass listing ID'][i] +  knack_matches['Represented?'][i] + knack_matches['Closed date'][i]
+        knack_matches['dummy_id'][i] = (knack_matches['Compass listing ID'][i] +
+        knack_matches['Represented?'][i] + knack_matches['Closed date'][i])
     else:
-        knack_matches['dummy_id'][i] = knack_matches['Address'][i]  + knack_matches['Represented?'][i] + knack_matches['Closed date'][i]
+        knack_matches['dummy_id'][i] = (knack_matches['Address'][i]  +
+        knack_matches['Represented?'][i] + knack_matches['Closed date'][i])
 
 
 

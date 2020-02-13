@@ -97,7 +97,10 @@ for i in range(0,(len(m_t)-1)):
         
 # Combine the 2 research dataframes 
 # Drop unnecessary columns
-research_t = research_t.drop(columns = ['level_0', 'index','Compass Team ID_x', 'Close Date_y', 'Compass Listing Id_x', 'External ID_x','External ID_y', 'Internal ID_x'], axis = 0)
+research_t = research_t.drop(columns = ['level_0', 'index','Compass Team ID_x',
+                                        'Close Date_y', 'Compass Listing Id_x',
+                                        'External ID_x','External ID_y',
+                                        'Internal ID_x'], axis = 0)
 
 research = research.drop(columns = ['level_0', 'index'], axis = 0)
 
@@ -161,7 +164,8 @@ for i in range(1,(len(a_match)-1)):
         a_match['agent_type'].loc[i] = 'Agent'
 
 
-# Add a new column using the side a or side b in external id. Then, dont remove duplicates that have a side a and side b listed
+# Add a new column using the side a or side b in external id. 
+# Then, dont remove duplicates that have a side a and side b listed
 
 a_match['side'] = ''
 
