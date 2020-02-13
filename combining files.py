@@ -67,12 +67,15 @@ for i in range(0,(len(df)-1)):
     
 
 # Merge knack data with the NS to Knack mapping
-from open_files import open_files
+import open_files
 
-open_knack_file = open_files()
-open_ama = open_files()
+open_knack_file = open_files.open_knack_file()
+open_ama = open_files.open_ama_table()
 
-knack_merged = knack_extract.merge(open_knack_file.open_knack_file(), right_on='Agent Entity', left_on='Entity name', how = 'left')
+knack_merged = knack_extract.merge(open_knack_file, 
+                                   right_on='Agent Entity', 
+                                   left_on='Entity name', 
+                                   how = 'left')
 
 # Identify matches and non matches
 knack_mismatches = knack_merged[knack_merged['Entity name'].isnull()]

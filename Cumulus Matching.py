@@ -8,18 +8,16 @@ Created on Tue Feb 04 10:28:35 2020
 
 import pandas as pd
 import datetime
+import open_files
 
 # Import excel files
-kn_ns_mapping = pd.read_excel('Knack to NS Team Mapping.xlsx',
-                              sheet_name = 'Knack Data')
+kn_ns_mapping = open_files.open_knack_file()
+
+ama = open_files.open_ama_table()
 
 cumulus = pd.read_excel('Cumulus 2018 Data.xlsx')
 
 backfill = pd.read_csv('backfill.csv')
-
-#backfill = backfill.drop(columns = 'Internal ID', axis = 0)
-
-ama = pd.read_csv('ama.csv')
 
 # Merge cumulus data with the NS to Knack mapping
 cumulus_merged = cumulus.merge(kn_ns_mapping, right_on='Agent Entity', 
@@ -144,17 +142,19 @@ a_mismatch = a[a['Name'].isnull()]
 a_match = a[pd.notnull(a['Name'])]
 
 # Export to csv
-a_mismatch.to_csv('/Users/pierre.casco/helpscout/team_id_mismatches.csv')
-a_match.to_csv('/Users/pierre.casco/helpscout/team_id_matches.csv')
+a_mismatch.to_csv('/Users/pierre.casco/backfill/Files/team_id_mismatches.csv')
+a_match.to_csv('/Users/pierre.casco/backfill/Files/team_id_matches.csv')
 
 
 
 # Find principals
 word = 'Principal'
 
+a_match = a_match.reset_index()
+
 a_match['agent_type'] = ''
 
-for i in range(0,(len(a_match)-1)):
+for i in range(1,(len(a_match)-1)):
     if word in a_match['Name'].loc[i]:
         a_match['agent_type'].loc[i] = 'Principal'
     else:
@@ -167,7 +167,6 @@ a_match['side'] = ''
 
 side_one = 'SideOne'
 side_two = 'SideTwo'
-
 
 try:
     for i in range(0, (len(a_match) - 1)):
@@ -188,7 +187,7 @@ list(set(a_match['Internal ID'].unique()).difference(list(principals['Internal I
 principals = principals.append(a_match[a_match['Internal ID'] == 24200])
 principals = principals.append(a_match[a_match['Internal ID'] == 139682])
 
-principals.to_csv('/Users/pierre.casco/helpscout/team_id_matches_principals.csv')
+principals.to_csv('/Users/pierre.casco/backfill/Files/team_id_matches_principals.csv')
 
 
 
